@@ -1,13 +1,16 @@
+from asyncio.log import logger
 from etl_anime import etl
 from anime_scraper import extract
+import logging
+logging.basicConfig(level=logging.INFO)
 
 
 def main():
-    print("Iniciando..")
-    # extract()
-    print("Scraper end")
+    logger.info("Iniciando..")
+    extract()
+    logger.info("Scraper end")
     etl()
-    print("ETL realizando con exito")
+    logger.info("ETL realizando con exito")
 
 
 

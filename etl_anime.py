@@ -16,6 +16,7 @@ class AnimeList:
         return df_animes
 
     def transform(self,df_animes):
+        
             df_animes.drop(['Unnamed: 0'],axis=1,inplace=True)
             df_animes['id']= range(1,len(df_animes)+1)
 
