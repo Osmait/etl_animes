@@ -4,7 +4,7 @@ from anime_scraper import extract
 
 def main():
     print("Iniciando..")
-    extract()
+    # extract()
     print("Scraper end")
     etl()
     print("ETL realizando con exito")

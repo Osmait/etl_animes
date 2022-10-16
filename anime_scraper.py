@@ -1,14 +1,23 @@
+from asyncio.log import logger
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import logging
+logging.basicConfig(level=logging.INFO)
 
-my_anime_list = requests.get('https://myanimelist.net/topanime.php')
-s = BeautifulSoup(my_anime_list.text,'lxml')
-animes =s.find_all('div',attrs={'class':'detail'})
-anime =animes[0]
-anime.h3.a.get_text()
-anime.h3.a.get('href')
-lista_animes= [anime.h3.a.get('href') for anime in animes ]
+lista_animes = []
+for i in range(0,1000,50):
+    lista = []
+    my_anime_url = requests.get(f'https://myanimelist.net/topanime.php?limit={i}')
+    lista.append(my_anime_url)
+
+    for animelt in lista:
+        s = BeautifulSoup(animelt.text,'lxml')
+        animes =s.find_all('div',attrs={'class':'detail'})
+        
+        for g in animes:
+            lista_animes.append(g.h3.a.get('href'))
+            print('link:',g.h3.a.get('href'))
 
 
 
@@ -59,7 +68,7 @@ def scrap_nota(url):
 def extract():
     data = []
     for i,anime in enumerate(lista_animes):
-        print(f'Scrapeando anime {i}/{len(lista_animes)}...')
+        logger.info(f' {i}/{len(lista_animes)}... Scrapeando {anime}')
         data.append(scrap_nota(anime))
 
     df = pd.DataFrame(data)
